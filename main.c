@@ -12,9 +12,9 @@
  */
 void freeMemory(Student **students, int numStudents) {
     for (int i = 0; i < numStudents; i++) {
-        free(students[i]);
+        free(students[i]);  // Free each student
     }
-    free(students);
+    free(students);  // Free the array of pointers
 }
 
 /**
@@ -47,27 +47,27 @@ int main(void) {
         switch (choice) {
             case 1:
                 if (numStudents < maxStudents) {
-                    addStudent(students, &numStudents);
+                    addStudent(&students, &numStudents); // Pass address to the pointer
                 } else {
                     printf("Student limit reached. Cannot add more students.\n");
                 }
                 break;
             case 2:
-                displayStudents(*students, numStudents); // Dereference to pass the correct type
+                displayStudents((const Student **)students, numStudents); // Cast to const Student**
                 break;
             case 3:
                 searchAndDisplayStudent(students, numStudents);
                 break;
             case 4:
-                modifyStudent(*students, numStudents); // Dereference to pass the correct type
+                modifyStudent(students, numStudents); // Directly pass students
                 break;
             case 5: {
                 int rollNumber;
                 printf("Enter roll number to delete: ");
                 scanf("%d", &rollNumber);
-                int index = searchStudentIndex(*students, numStudents, rollNumber); // Dereference to pass the correct type
+                int index = searchStudentIndex((const Student **)students, numStudents, rollNumber);
                 if (index != -1) {
-                    deleteStudent(students, &numStudents, index);
+                    deleteStudent(&students, &numStudents, index); // Pass address to the pointer
                 } else {
                     printf("Student not found.\n");
                 }
