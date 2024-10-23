@@ -19,10 +19,8 @@ void searchAndDisplayStudent(Student **students, int numStudents) {
         return;
     }
 
-    // Search for the student
-    Student *foundStudent = searchStudent((const Student **)students, numStudents, rollNumber); // Cast to const to match function signature
+    const Student *foundStudent = searchStudent((const Student **)students, numStudents, rollNumber); // Keep const here
 
-    // Display the student's information
     if (foundStudent != NULL) {
         displayStudentInfo(foundStudent);
     } else {
@@ -46,11 +44,9 @@ void modifyStudent(Student **students, int numStudents) {
         return;
     }
 
-    // Get the index of the student to modify
     int index = searchStudentIndex((const Student **)students, numStudents, rollNumber); // Get the index
 
     if (index != -1) {
-        // Prompt for new information
         printf("Enter new name: ");
         scanf("%49s", students[index]->name); // Modify directly using the index
 
@@ -66,7 +62,7 @@ void modifyStudent(Student **students, int numStudents) {
             while (getchar() != '\n'); // Clear the input buffer
         }
 
-        printf("Student information modified successfully.\n");
+        printf("Student information modified.\n");
     } else {
         printf("Student not found.\n");
     }
