@@ -19,7 +19,7 @@ void searchAndDisplayStudent(Student **students, int numStudents) {
         return;
     }
 
-    Student *foundStudent = searchStudent((const Student **)students, numStudents, rollNumber); // Cast to const to match function signature
+    const Student *foundStudent = searchStudent((const Student **)students, numStudents, rollNumber); // Cast to const to match function signature
 
     if (foundStudent != NULL) {
         displayStudentInfo(foundStudent);
@@ -47,8 +47,7 @@ void modifyStudent(Student **students, int numStudents) {
     Student *foundStudent = searchStudent((const Student **)students, numStudents, rollNumber); // Cast to const to match function signature
 
     if (foundStudent != NULL) {
-        // Assuming modifyStudentInfo is a function that modifies the student's info.
-        modifyStudentInfo(foundStudent); // You need to define this function
+        modifyStudentInfo(foundStudent); // You need to define this function to modify the student's info
         printf("Student information modified.\n");
     } else {
         printf("Student not found.\n");
@@ -101,4 +100,20 @@ void displayStudentInfo(const Student *student) { // Use const to indicate the s
     } else {
         printf("No student information available.\n");
     }
+}
+
+/**
+ * modifyStudentInfo - Modifies the information of a student.
+ *
+ * @student: A pointer to the student to modify.
+ */
+void modifyStudentInfo(Student *student) {
+    printf("Enter new name: ");
+    scanf("%49s", student->name); // Limit input to avoid overflow
+
+    printf("Enter new roll number: ");
+    scanf("%d", &student->rollNumber);
+
+    printf("Enter new marks: ");
+    scanf("%f", &student->marks);
 }
