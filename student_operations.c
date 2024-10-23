@@ -44,10 +44,10 @@ void modifyStudent(Student **students, int numStudents) {
         return;
     }
 
-    Student *foundStudent = searchStudent((const Student **)students, numStudents, rollNumber); // Cast to const to match function signature
+    const Student *foundStudent = searchStudent((const Student **)students, numStudents, rollNumber); // Use const pointer
 
     if (foundStudent != NULL) {
-        modifyStudentInfo(foundStudent); // You need to define this function to modify the student's info
+        modifyStudentInfo((Student *)foundStudent); // Cast to non-const to modify
         printf("Student information modified.\n");
     } else {
         printf("Student not found.\n");
