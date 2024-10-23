@@ -58,7 +58,7 @@ void displayStudents(const Student **students, int numStudents) {
  * @rollNumber: The roll number to search for.
  * Return: A pointer to the found Student or NULL if not found.
  */
-Student *searchStudent(const Student **students, int numStudents, int rollNumber) {
+const Student *searchStudent(const Student **students, int numStudents, int rollNumber) {
     for (int i = 0; i < numStudents; i++) {
         if (students[i]->rollNumber == rollNumber) {
             return students[i]; // Return the pointer to the found student
@@ -79,17 +79,20 @@ void modifyStudent(Student **students, int numStudents) {
     printf("Enter roll number to modify: ");
     scanf("%d", &rollNumber);
 
-    Student *foundStudent = searchStudent((const Student **)students, numStudents, rollNumber);
+    const Student *foundStudent = searchStudent((const Student **)students, numStudents, rollNumber);
 
     if (foundStudent != NULL) {
+        // Cast away const to modify the student's information
+        Student *modifiableStudent = (Student *)foundStudent;
+
         printf("Enter new name: ");
-        scanf("%s", foundStudent->name);
+        scanf("%s", modifiableStudent->name);
 
         printf("Enter new roll number: ");
-        scanf("%d", &foundStudent->rollNumber);
+        scanf("%d", &modifiableStudent->rollNumber);
 
         printf("Enter new marks: ");
-        scanf("%f", &foundStudent->marks);
+        scanf("%f", &modifiableStudent->marks);
 
         printf("Student information modified.\n");
     } else {
