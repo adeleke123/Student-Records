@@ -6,17 +6,18 @@
 /**
  * addStudent - Adds a new student to the array.
  *
- * @students: An array of Student pointers.
- * @numStudents: A pointer to the number of students.
+ * @students: A pointer to an array of Student pointers.
+ * @numStudents: A pointer to the current number of students.
  */
 void addStudent(Student ***students, int *numStudents) {
     // Reallocate memory for the student array to add a new student
-    *students = realloc(*students, (*numStudents + 1) * sizeof(Student *));
+    Student **temp = realloc(*students, (*numStudents + 1) * sizeof(Student *));
     
-    if (*students == NULL) {
+    if (temp == NULL) {
         printf("Memory allocation failed.\n");
         exit(1);  // Exit if memory allocation fails
     }
+    *students = temp;
 
     // Allocate memory for the new student
     (*students)[*numStudents] = malloc(sizeof(Student));
@@ -26,11 +27,17 @@ void addStudent(Student ***students, int *numStudents) {
     }
 
     printf("Enter name: "); // Get student information from the user
-    scanf("%s", (*students)[*numStudents]->name);
+    scanf("%49s", (*students)[*numStudents]->name); // Limit input to avoid buffer overflow
     printf("Enter roll number: ");
-    scanf("%d", &(*students)[*numStudents]->rollNumber);
+    while (scanf("%d", &(*students)[*numStudents]->rollNumber) != 1) {
+        printf("Invalid input. Please enter a valid roll number: ");
+        while (getchar() != '\n'); // Clear the input buffer
+    }
     printf("Enter marks: ");
-    scanf("%f", &(*students)[*numStudents]->marks);
+    while (scanf("%f", &(*students)[*numStudents]->marks) != 1) {
+        printf("Invalid input. Please enter valid marks: ");
+        while (getchar() != '\n'); // Clear the input buffer
+    }
 
     (*numStudents)++;  // Increment the number of students
 }
@@ -77,7 +84,10 @@ void modifyStudent(Student **students, int numStudents) {
     int rollNumber;
 
     printf("Enter roll number to modify: ");
-    scanf("%d", &rollNumber);
+    while (scanf("%d", &rollNumber) != 1) {
+        printf("Invalid input. Please enter a valid roll number: ");
+        while (getchar() != '\n'); // Clear the input buffer
+    }
 
     const Student *foundStudent = searchStudent((const Student **)students, numStudents, rollNumber);
 
@@ -86,13 +96,19 @@ void modifyStudent(Student **students, int numStudents) {
         Student *modifiableStudent = (Student *)foundStudent;
 
         printf("Enter new name: ");
-        scanf("%s", modifiableStudent->name);
+        scanf("%49s", modifiableStudent->name); // Limit input to avoid buffer overflow
 
         printf("Enter new roll number: ");
-        scanf("%d", &modifiableStudent->rollNumber);
+        while (scanf("%d", &modifiableStudent->rollNumber) != 1) {
+            printf("Invalid input. Please enter a valid roll number: ");
+            while (getchar() != '\n'); // Clear the input buffer
+        }
 
         printf("Enter new marks: ");
-        scanf("%f", &modifiableStudent->marks);
+        while (scanf("%f", &modifiableStudent->marks) != 1) {
+            printf("Invalid input. Please enter valid marks: ");
+            while (getchar() != '\n'); // Clear the input buffer
+        }
 
         printf("Student information modified.\n");
     } else {
@@ -103,8 +119,8 @@ void modifyStudent(Student **students, int numStudents) {
 /**
  * deleteStudent - Deletes a student from the array.
  *
- * @students: A dynamically allocated array of Student pointers.
- * @numStudents: A pointer to the number of students.
+ * @students: A pointer to a dynamically allocated array of Student pointers.
+ * @numStudents: A pointer to the current number of students.
  * @index: The index of the student to delete.
  */
 void deleteStudent(Student ***students, int *numStudents, int index) {
@@ -121,11 +137,14 @@ void deleteStudent(Student ***students, int *numStudents, int index) {
         (*students)[i] = (*students)[i + 1];  // Shift elements
     }
 
-    *students = realloc(*students, (*numStudents - 1) * sizeof(Student *));
-    
-    if (*students == NULL && *numStudents > 1) {
-        printf("Memory reallocation failed.\n");
-        exit(1);
+    // Optionally, shrink the memory for the array
+    if (*numStudents > 1) {
+        Student **temp = realloc(*students, (*numStudents - 1) * sizeof(Student *));
+        if (temp == NULL) {
+            printf("Memory reallocation failed.\n");
+            exit(1);
+        }
+        *students = temp;
     }
 
     (*numStudents)--;  // Decrement the number of students
