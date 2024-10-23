@@ -7,40 +7,49 @@
 int searchStudentIndex(const Student **students, int numStudents, int rollNumber);
 
 /**
- * modifyStudent - Modifies the information of a student.
+ * addStudent - Adds a new student to the array.
+ *
+ * @students: An array of Student pointers.
+ * @numStudents: A pointer to the number of students in the array.
+ */
+void addStudent(Student ***students, int *numStudents) {
+    // Implementation for adding a student...
+}
+
+/**
+ * displayStudents - Displays the list of students.
  *
  * @students: An array of Student pointers.
  * @numStudents: The number of students in the array.
  */
-void modifyStudent(Student **students, int numStudents) {
-    int rollNumber;
+void displayStudents(const Student **students, int numStudents) {
+    // Implementation for displaying students...
+}
 
-    printf("Enter roll number to modify: ");
-    while (scanf("%d", &rollNumber) != 1) {
-        printf("Invalid input. Please enter a valid roll number: ");
-        while (getchar() != '\n'); // Clear the input buffer
-    }
+/**
+ * deleteStudent - Deletes a student from the array.
+ *
+ * @students: An array of Student pointers.
+ * @numStudents: A pointer to the number of students in the array.
+ * @index: The index of the student to delete.
+ */
+void deleteStudent(Student ***students, int *numStudents, int index) {
+    // Implementation for deleting a student...
+}
 
-    int index = searchStudentIndex((const Student **)students, numStudents, rollNumber); // Get the index
-
-    if (index != -1) {
-        printf("Enter new name: ");
-        scanf("%49s", students[index]->name); // Modify directly using the index
-
-        printf("Enter new roll number: ");
-        while (scanf("%d", &students[index]->rollNumber) != 1) {
-            printf("Invalid input. Please enter a valid roll number: ");
-            while (getchar() != '\n'); // Clear the input buffer
+/**
+ * searchStudentIndex - Searches for a student by roll number and returns the index.
+ *
+ * @students: An array of Student pointers.
+ * @numStudents: The number of students in the array.
+ * @rollNumber: The roll number to search for.
+ * Return: The index of the found student, or -1 if not found.
+ */
+int searchStudentIndex(const Student **students, int numStudents, int rollNumber) {
+    for (int i = 0; i < numStudents; i++) {
+        if (students[i]->rollNumber == rollNumber) {
+            return i; // Return the index of the found student
         }
-
-        printf("Enter new marks: ");
-        while (scanf("%f", &students[index]->marks) != 1) {
-            printf("Invalid input. Please enter valid marks: ");
-            while (getchar() != '\n'); // Clear the input buffer
-        }
-
-        printf("Student information modified.\n");
-    } else {
-        printf("Student not found.\n");
     }
+    return -1;  // Student not found
 }
