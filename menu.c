@@ -36,7 +36,7 @@ int getUserChoice(void) {
 /**
  * handleUserChoice - Handles the user's choice from the menu.
  *
- * @students: An array of Student pointers.
+ * @students: A pointer to an array of Student pointers.
  * @numStudents: A pointer to the number of students in the array.
  */
 void handleUserChoice(Student ***students, int *numStudents) {
@@ -54,7 +54,8 @@ void handleUserChoice(Student ***students, int *numStudents) {
                 displayStudents((const Student **)students, *numStudents);
                 break;
             case 3:
-                searchAndDisplayStudent((const Student **)students, *numStudents);
+                // Update this line to call the function with the correct pointer type
+                searchAndDisplayStudent(*students, *numStudents);
                 break;
             case 4:
                 modifyStudent(*students, *numStudents);
