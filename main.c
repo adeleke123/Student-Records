@@ -36,7 +36,7 @@ int main(void) {
     printf("Welcome to the Student Record System!\n");
     printf("Please enter your name: ");
     char userName[50];
-    scanf("%s", userName);
+    scanf("%49s", userName); // Limit input to avoid buffer overflow
     printf("Hello, %s! Let's manage student records.\n", userName);
 
     // Main program loop
@@ -53,19 +53,19 @@ int main(void) {
                 }
                 break;
             case 2:
-                displayStudents(students, numStudents);
+                displayStudents(*students, numStudents); // Dereference to pass the correct type
                 break;
             case 3:
                 searchAndDisplayStudent(students, numStudents);
                 break;
             case 4:
-                modifyStudent(students, numStudents);
+                modifyStudent(*students, numStudents); // Dereference to pass the correct type
                 break;
             case 5: {
                 int rollNumber;
                 printf("Enter roll number to delete: ");
                 scanf("%d", &rollNumber);
-                int index = searchStudentIndex(students, numStudents, rollNumber);
+                int index = searchStudentIndex(*students, numStudents, rollNumber); // Dereference to pass the correct type
                 if (index != -1) {
                     deleteStudent(students, &numStudents, index);
                 } else {
