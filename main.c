@@ -42,7 +42,7 @@ int main(void) {
     // Main program loop
     while (1) {
         displayMenu();
-        int choice = getUserChoice();
+        int choice = getUserChoice(); // Function to get user choice
 
         switch (choice) {
             case 1:
@@ -64,7 +64,11 @@ int main(void) {
             case 5: {
                 int rollNumber;
                 printf("Enter roll number to delete: ");
-                scanf("%d", &rollNumber);
+                if (scanf("%d", &rollNumber) != 1) {
+                    printf("Invalid input. Please enter a valid roll number.\n");
+                    while (getchar() != '\n'); // Clear the input buffer
+                    break;
+                }
                 int index = searchStudentIndex((const Student **)students, numStudents, rollNumber);
                 if (index != -1) {
                     deleteStudent(&students, &numStudents, index); // Pass address to the pointer
