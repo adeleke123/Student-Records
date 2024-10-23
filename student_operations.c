@@ -19,7 +19,7 @@ void searchAndDisplayStudent(Student **students, int numStudents) {
         return;
     }
 
-    Student *foundStudent = searchStudent(*students, numStudents, rollNumber); // Dereference to pass the correct type
+    Student *foundStudent = searchStudent((const Student **)students, numStudents, rollNumber); // Cast to const to match function signature
 
     if (foundStudent != NULL) {
         displayStudentInfo(foundStudent);
@@ -44,10 +44,11 @@ void modifyStudent(Student **students, int numStudents) {
         return;
     }
 
-    Student *foundStudent = searchStudent(*students, numStudents, rollNumber); // Dereference to pass the correct type
+    Student *foundStudent = searchStudent((const Student **)students, numStudents, rollNumber); // Cast to const to match function signature
 
     if (foundStudent != NULL) {
-        modifyStudentInfo(foundStudent);
+        // Assuming modifyStudentInfo is a function that modifies the student's info.
+        modifyStudentInfo(foundStudent); // You need to define this function
         printf("Student information modified.\n");
     } else {
         printf("Student not found.\n");
@@ -61,7 +62,7 @@ void modifyStudent(Student **students, int numStudents) {
  * @numStudents: A pointer to the number of students in the array.
  * @index: The index of the student to delete.
  */
-void deleteStudent(Student **students, int *numStudents, int index) {
+void deleteStudent(Student ***students, int *numStudents, int index) { // Updated signature
     // Ensure index is valid
     if (index < 0 || index >= *numStudents) {
         printf("Invalid index. No student deleted.\n");
@@ -69,16 +70,21 @@ void deleteStudent(Student **students, int *numStudents, int index) {
     }
 
     // Free memory for the deleted student
-    free(students[index]);
+    free((*students)[index]);
 
     // Shift elements after the deleted index
     for (int i = index; i < *numStudents - 1; i++) {
-        students[i] = students[i + 1];
+        (*students)[i] = (*students)[i + 1];
     }
 
     // Decrement the number of students
-    (*numStudents)--;
+    (*students) = realloc(*students, (*numStudents - 1) * sizeof(Student *)); // Adjust memory allocation
+    if (*students == NULL && *numStudents > 1) {
+        printf("Memory reallocation failed.\n");
+        exit(1);
+    }
 
+    (*numStudents)--; // Decrement the number of students
     printf("Student deleted.\n");
 }
 
