@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <stdlib.h> // Include this for malloc, free, realloc
+#include <stdlib.h>
 #include "student_operations.h"
 #include "student_records.h"
 
@@ -19,7 +19,7 @@ void searchAndDisplayStudent(Student **students, int numStudents) {
         return;
     }
 
-    const Student *foundStudent = searchStudent((const Student **)students, numStudents, rollNumber); // Cast to const to match function signature
+    Student *foundStudent = searchStudent((const Student **)students, numStudents, rollNumber); // Cast to const to match function signature
 
     if (foundStudent != NULL) {
         displayStudentInfo(foundStudent);
@@ -44,47 +44,28 @@ void modifyStudent(Student **students, int numStudents) {
         return;
     }
 
-    const Student *foundStudent = searchStudent((const Student **)students, numStudents, rollNumber); // Use const pointer
+    int index = searchStudentIndex((const Student **)students, numStudents, rollNumber); // Get the index
 
-    if (foundStudent != NULL) {
-        modifyStudentInfo((Student *)foundStudent); // Cast to non-const to modify
+    if (index != -1) {
+        printf("Enter new name: ");
+        scanf("%49s", students[index]->name); // Modify directly using the index
+
+        printf("Enter new roll number: ");
+        while (scanf("%d", &students[index]->rollNumber) != 1) {
+            printf("Invalid input. Please enter a valid roll number: ");
+            while (getchar() != '\n'); // Clear the input buffer
+        }
+
+        printf("Enter new marks: ");
+        while (scanf("%f", &students[index]->marks) != 1) {
+            printf("Invalid input. Please enter valid marks: ");
+            while (getchar() != '\n'); // Clear the input buffer
+        }
+
         printf("Student information modified.\n");
     } else {
         printf("Student not found.\n");
     }
-}
-
-/**
- * deleteStudent - Deletes a student from the array.
- *
- * @students: An array of Student pointers.
- * @numStudents: A pointer to the number of students in the array.
- * @index: The index of the student to delete.
- */
-void deleteStudent(Student ***students, int *numStudents, int index) { // Updated signature
-    // Ensure index is valid
-    if (index < 0 || index >= *numStudents) {
-        printf("Invalid index. No student deleted.\n");
-        return;
-    }
-
-    // Free memory for the deleted student
-    free((*students)[index]);
-
-    // Shift elements after the deleted index
-    for (int i = index; i < *numStudents - 1; i++) {
-        (*students)[i] = (*students)[i + 1];
-    }
-
-    // Decrement the number of students
-    (*students) = realloc(*students, (*numStudents - 1) * sizeof(Student *)); // Adjust memory allocation
-    if (*students == NULL && *numStudents > 1) {
-        printf("Memory reallocation failed.\n");
-        exit(1);
-    }
-
-    (*numStudents)--; // Decrement the number of students
-    printf("Student deleted.\n");
 }
 
 /**
@@ -100,20 +81,4 @@ void displayStudentInfo(const Student *student) { // Use const to indicate the s
     } else {
         printf("No student information available.\n");
     }
-}
-
-/**
- * modifyStudentInfo - Modifies the information of a student.
- *
- * @student: A pointer to the student to modify.
- */
-void modifyStudentInfo(Student *student) {
-    printf("Enter new name: ");
-    scanf("%49s", student->name); // Limit input to avoid overflow
-
-    printf("Enter new roll number: ");
-    scanf("%d", &student->rollNumber);
-
-    printf("Enter new marks: ");
-    scanf("%f", &student->marks);
 }
