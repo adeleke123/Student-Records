@@ -18,7 +18,7 @@ int getUserChoice(void);
 /**
  * handleUserChoice - Handles the user's choice from the menu.
  *
- * @students: An array of Student pointers.
+ * @students: A pointer to an array of Student pointers.
  * @numStudents: A pointer to the number of students in the array.
  */
 void handleUserChoice(Student ***students, int *numStudents);
