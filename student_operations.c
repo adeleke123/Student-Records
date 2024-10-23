@@ -15,11 +15,11 @@ void searchAndDisplayStudent(Student **students, int numStudents) {
     printf("Enter roll number to search: ");
     if (scanf("%d", &rollNumber) != 1) {
         printf("Invalid input. Please enter a valid roll number.\n");
-        while(getchar() != '\n'); // Clear the input buffer
+        while (getchar() != '\n'); // Clear the input buffer
         return;
     }
 
-    Student *foundStudent = searchStudent(students, numStudents, rollNumber);
+    Student *foundStudent = searchStudent(*students, numStudents, rollNumber); // Dereference to pass the correct type
 
     if (foundStudent != NULL) {
         displayStudentInfo(foundStudent);
@@ -40,11 +40,11 @@ void modifyStudent(Student **students, int numStudents) {
     printf("Enter roll number to modify: ");
     if (scanf("%d", &rollNumber) != 1) {
         printf("Invalid input. Please enter a valid roll number.\n");
-        while(getchar() != '\n'); // Clear the input buffer
+        while (getchar() != '\n'); // Clear the input buffer
         return;
     }
 
-    Student *foundStudent = searchStudent(students, numStudents, rollNumber);
+    Student *foundStudent = searchStudent(*students, numStudents, rollNumber); // Dereference to pass the correct type
 
     if (foundStudent != NULL) {
         modifyStudentInfo(foundStudent);
@@ -87,7 +87,7 @@ void deleteStudent(Student **students, int *numStudents, int index) {
  *
  * @student: A pointer to the student to display.
  */
-void displayStudentInfo(Student *student) {
+void displayStudentInfo(const Student *student) { // Use const to indicate the student won't be modified
     if (student != NULL) {
         printf("Name: %s\n", student->name);
         printf("Roll Number: %d\n", student->rollNumber);
