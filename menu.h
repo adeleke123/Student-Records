@@ -21,6 +21,16 @@ int getUserChoice(void);
  * @students: An array of Student pointers.
  * @numStudents: A pointer to the number of students in the array.
  */
-void handleUserChoice(Student **students, int *numStudents);
+void handleUserChoice(Student ***students, int *numStudents);
+
+/**
+ * searchStudentIndex - Searches for a student by roll number and returns the index.
+ *
+ * @students: An array of Student pointers.
+ * @numStudents: The number of students in the array.
+ * @rollNumber: The roll number to search for.
+ * Return: The index of the found student, or -1 if not found.
+ */
+int searchStudentIndex(const Student **students, int numStudents, int rollNumber);
 
 #endif /* MENU_H */
