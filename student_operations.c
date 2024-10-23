@@ -1,19 +1,23 @@
 #include <stdio.h>
+#include <stdlib.h> // Include this for malloc, free, realloc
 #include "student_operations.h"
 #include "student_records.h"
 
 /**
- * searchAndDisplayStudent - Searches for a student information by roll.
- *
- * @students: An array of Student pointers.
- * @numStudents: The number of students in the array.
- */
-
+ * searchAndDisplayStudent - Searches for a student by roll number and displays their information.
+ *
+ * @students: An array of Student pointers.
+ * @numStudents: The number of students in the array.
+ */
 void searchAndDisplayStudent(Student **students, int numStudents) {
     int rollNumber;
 
     printf("Enter roll number to search: ");
-    scanf("%d", &rollNumber);
+    if (scanf("%d", &rollNumber) != 1) {
+        printf("Invalid input. Please enter a valid roll number.\n");
+        while(getchar() != '\n'); // Clear the input buffer
+        return;
+    }
 
     Student *foundStudent = searchStudent(students, numStudents, rollNumber);
 
@@ -25,17 +29,20 @@ void searchAndDisplayStudent(Student **students, int numStudents) {
 }
 
 /**
- * modifyStudent - Modifies the information of a student.
- *
- * @students: An array of Student pointers.
- * @numStudents: The number of students in the array.
- */
-
+ * modifyStudent - Modifies the information of a student.
+ *
+ * @students: An array of Student pointers.
+ * @numStudents: The number of students in the array.
+ */
 void modifyStudent(Student **students, int numStudents) {
     int rollNumber;
 
     printf("Enter roll number to modify: ");
-    scanf("%d", &rollNumber);
+    if (scanf("%d", &rollNumber) != 1) {
+        printf("Invalid input. Please enter a valid roll number.\n");
+        while(getchar() != '\n'); // Clear the input buffer
+        return;
+    }
 
     Student *foundStudent = searchStudent(students, numStudents, rollNumber);
 
@@ -48,21 +55,26 @@ void modifyStudent(Student **students, int numStudents) {
 }
 
 /**
- * deleteStudent - Deletes a student from the array.
- *
- * @students: An array of Student pointers.
- * @numStudents: A pointer to the number of students in the array.
- * @index: The index of the student to delete.
- */
-
+ * deleteStudent - Deletes a student from the array.
+ *
+ * @students: An array of Student pointers.
+ * @numStudents: A pointer to the number of students in the array.
+ * @index: The index of the student to delete.
+ */
 void deleteStudent(Student **students, int *numStudents, int index) {
+    // Ensure index is valid
+    if (index < 0 || index >= *numStudents) {
+        printf("Invalid index. No student deleted.\n");
+        return;
+    }
+
+    // Free memory for the deleted student
+    free(students[index]);
+
     // Shift elements after the deleted index
     for (int i = index; i < *numStudents - 1; i++) {
         students[i] = students[i + 1];
     }
-
-    // Free memory for the deleted student
-    free(students[*numStudents - 1]);
 
     // Decrement the number of students
     (*numStudents)--;
@@ -71,13 +83,16 @@ void deleteStudent(Student **students, int *numStudents, int index) {
 }
 
 /**
- * displayStudentInfo - Displays the information of a student.
- *
- * @student: A pointer to the student to display.
- */
-
+ * displayStudentInfo - Displays the information of a student.
+ *
+ * @student: A pointer to the student to display.
+ */
 void displayStudentInfo(Student *student) {
-    printf("Name: %s\n", student->name);
-    printf("Roll Number: %d\n", student->rollNumber);
-    printf("Marks: %.2f\n", student->marks);
+    if (student != NULL) {
+        printf("Name: %s\n", student->name);
+        printf("Roll Number: %d\n", student->rollNumber);
+        printf("Marks: %.2f\n", student->marks);
+    } else {
+        printf("No student information available.\n");
+    }
 }
