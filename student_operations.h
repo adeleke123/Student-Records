@@ -4,6 +4,16 @@
 #include "student_records.h"
 
 /**
+ * searchStudent - Searches for a student by roll number.
+ *
+ * @students: An array of Student pointers.
+ * @numStudents: The number of students in the array.
+ * @rollNumber: The roll number to search for.
+ * Return: A pointer to the found Student, or NULL if not found.
+ */
+Student *searchStudent(const Student **students, int numStudents, int rollNumber);
+
+/**
  * searchAndDisplayStudent - Searches for a student by roll number and displays their information.
  *
  * @students: An array of Student pointers.
@@ -19,10 +29,11 @@ void searchAndDisplayStudent(Student **students, int numStudents);
 void displayStudentInfo(const Student *student);
 
 /**
- * modifyStudentInfo - Modifies the information of a student.
+ * modifyStudent - Modifies the information of a student.
  *
- * @student: A pointer to the student to modify.
+ * @students: An array of Student pointers.
+ * @numStudents: The number of students in the array.
  */
-void modifyStudentInfo(Student *student);
+void modifyStudent(Student **students, int numStudents);
 
 #endif /* STUDENT_OPERATIONS_H */
