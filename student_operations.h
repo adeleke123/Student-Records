@@ -9,6 +9,7 @@
  * @students: An array of Student pointers.
  * @numStudents: The number of students in the array.
  * @rollNumber: The roll number to search for.
+ * 
  * Return: A pointer to the found Student, or NULL if not found.
  */
 const Student *searchStudent(const Student **students, int numStudents, int rollNumber);
