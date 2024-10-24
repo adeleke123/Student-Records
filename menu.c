@@ -18,26 +18,31 @@ void displayMenu() {
     printf("Please enter your choice: ");
 }
 
-/**
- * handleUserChoice - Handles user choice from the menu.
- *
- * @choice: The choice made by the user.
- * @students: A pointer to an array of Student pointers.
- * @numStudents: A pointer to the number of students.
- */
+// Function to get the user's choice
+int getUserChoice() {
+    int choice;
+    if (scanf("%d", &choice) != 1) {
+        printf("Invalid input. Please enter a number.\n");
+        while (getchar() != '\n');  // Clear input buffer
+        return -1;  // Invalid choice
+    }
+    return choice;
+}
+
+// Function to handle the user's choice
 void handleUserChoice(int choice, Student ***students, int *numStudents) {
     switch (choice) {
         case 1:
-            addStudent(students, numStudents); // Adding a student
+            addStudent(students, numStudents);
             break;
         case 2:
-            searchAndDisplayStudent(*students, *numStudents); // Search and display student
+            searchAndDisplayStudent(*students, *numStudents);
             break;
         case 3:
-            modifyStudent(*students, *numStudents); // Modify student record
+            modifyStudent(*students, *numStudents);
             break;
         case 4:
-            displayStudents((const Student **)(*students), *numStudents); // Display all students
+            displayStudents((const Student **)(*students), *numStudents);
             break;
         case 5: {
             int rollNumber;
@@ -49,14 +54,13 @@ void handleUserChoice(int choice, Student ***students, int *numStudents) {
             }
             int index = searchStudentIndex((const Student **)(*students), *numStudents, rollNumber);
             if (index != -1) {
-                deleteStudent(students, numStudents, index); // Delete student by index
+                deleteStudent(students, numStudents, index);
             } else {
                 printf("Student not found.\n");
             }
             break;
         }
         case 6:
-            // Handle average marks calculation
             if (*numStudents > 0) {
                 float average = calculateAverageMarks((const Student **)(*students), *numStudents);
                 printf("The average marks of all students is: %.2f\n", average);
@@ -65,7 +69,6 @@ void handleUserChoice(int choice, Student ***students, int *numStudents) {
             }
             break;
         case 7: {
-            // Sort students by marks
             printf("Sort by marks in (1) Ascending or (2) Descending order? ");
             int sortOrder;
             scanf("%d", &sortOrder);
@@ -74,16 +77,16 @@ void handleUserChoice(int choice, Student ***students, int *numStudents) {
             break;
         }
         case 8:
-            saveStudentsToFile((const Student **)(*students), *numStudents, "students.txt"); // Save students to file
+            saveStudentsToFile((const Student **)(*students), *numStudents, "students.txt");
             printf("Student records saved to 'students.txt'.\n");
             break;
         case 9:
-            loadStudentsFromFile(students, numStudents, "students.txt"); // Load students from file
+            loadStudentsFromFile(students, numStudents, "students.txt");
             printf("Student records loaded from 'students.txt'.\n");
             break;
         case 10:
             printf("Exiting program...\n");
-            break; // Exit will be handled in the main loop
+            break;
         default:
             printf("Invalid choice. Please try again.\n");
     }
