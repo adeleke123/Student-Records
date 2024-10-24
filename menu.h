@@ -18,10 +18,11 @@ int getUserChoice(void);
 /**
  * handleUserChoice - Handles the user's choice from the menu.
  *
+ * @choice: The choice made by the user.
  * @students: A pointer to an array of Student pointers.
  * @numStudents: A pointer to the number of students in the array.
  */
-void handleUserChoice(Student ***students, int *numStudents);
+void handleUserChoice(int choice, Student ***students, int *numStudents);
 
 /**
  * searchStudentIndex - Searches for a student by roll number and returns the index.
