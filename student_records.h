@@ -42,7 +42,7 @@ void displayStudents(const Student **students, int numStudents);
  * 
  * Return: A pointer to the found student, or NULL if not found.
  */
-Student *searchStudent(const Student **students, int numStudents, int rollNumber);
+const Student *searchStudent(const Student **students, int numStudents, int rollNumber);
 
 /**
  * searchStudentIndex - Searches for the index of a student by roll number.
