@@ -19,48 +19,33 @@ void saveStudentsToFile(const Student **students, int numStudents, const char *f
     printf("Student records saved to %s successfully.\n", filename);
 }
 
-// Function to load student records from a file
-void loadStudentsFromFile(Student ***students, int *numStudents, const char *filename) {
-    FILE *file = fopen(filename, "r");
-    if (!file) {
-        perror("Unable to open file for reading");
-        return;
-    }
+// Other functions related to student operations can be added below
+// If the modifyStudent or other related functions are here, you can add them
+// For example, here's a modifyStudent function template:
 
-    // Count the number of students in the file
-    *numStudents = 0;
-    char line[100]; // Buffer to read each line
-    while (fgets(line, sizeof(line), file)) {
-        if (strlen(line) > 1) { // Ignore empty lines
-            (*numStudents)++;
+void modifyStudent(Student **students, int numStudents) {
+    int rollNumber;
+    printf("Enter the roll number of the student to modify: ");
+    scanf("%d", &rollNumber);
+
+    int index = -1;
+    for (int i = 0; i < numStudents; i++) {
+        if (students[i]->rollNumber == rollNumber) {
+            index = i;
+            break;
         }
     }
 
-    // Allocate memory for students
-    *students = malloc(*numStudents * sizeof(Student *));
-    if (!*students) {
-        perror("Memory allocation failed");
-        fclose(file);
+    if (index == -1) {
+        printf("Student with roll number %d not found.\n", rollNumber);
         return;
     }
 
-    fseek(file, 0, SEEK_SET); // Reset file pointer to the beginning
+    // Modify student details
+    printf("Enter new name: ");
+    scanf("%s", students[index]->name);
+    printf("Enter new marks: ");
+    scanf("%f", &students[index]->marks);
 
-    for (int i = 0; i < *numStudents; i++) {
-        (*students)[i] = malloc(sizeof(Student));
-        if (!(*students)[i]) {
-            perror("Memory allocation failed for student");
-            // Free previously allocated memory in case of failure
-            for (int j = 0; j < i; j++) {
-                free((*students)[j]);
-            }
-            free(*students);
-            fclose(file);
-            return;
-        }
-        fscanf(file, "%49s %d %f", (*students)[i]->name, &(*students)[i]->rollNumber, &(*students)[i]->marks);
-    }
-
-    fclose(file);
-    printf("Student records loaded from %s successfully.\n", filename);
+    printf("Student record updated successfully.\n");
 }
