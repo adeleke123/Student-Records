@@ -54,7 +54,6 @@ void handleUserChoice(Student ***students, int *numStudents) {
                 displayStudents((const Student **)students, *numStudents);
                 break;
             case 3:
-                // Update this line to call the function with the correct pointer type
                 searchAndDisplayStudent(*students, *numStudents);
                 break;
             case 4:
@@ -63,7 +62,10 @@ void handleUserChoice(Student ***students, int *numStudents) {
             case 5: {
                 int rollNumber;
                 printf("Enter roll number to delete: ");
-                scanf("%d", &rollNumber);
+                while (scanf("%d", &rollNumber) != 1) {
+                    printf("Invalid input! Please enter a valid roll number: ");
+                    while (getchar() != '\n'); // Clear invalid input
+                }
                 int index = searchStudentIndex((const Student **)students, *numStudents, rollNumber);
                 if (index != -1) {
                     deleteStudent(students, numStudents, index);
@@ -79,21 +81,4 @@ void handleUserChoice(Student ***students, int *numStudents) {
                 printf("Invalid choice! Please try again.\n");
         }
     } while (choice != 6);
-}
-
-/**
- * searchStudentIndex - Searches for a student by roll number and returns the index.
- *
- * @students: An array of Student pointers.
- * @numStudents: The number of students in the array.
- * @rollNumber: The roll number to search for.
- * Return: The index of the found student, or -1 if not found.
- */
-int searchStudentIndex(const Student **students, int numStudents, int rollNumber) {
-    for (int i = 0; i < numStudents; i++) {
-        if (students[i]->rollNumber == rollNumber) {
-            return i; // Return the index of the found student
-        }
-    }
-    return -1;  // Student not found
 }
