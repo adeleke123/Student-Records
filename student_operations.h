@@ -38,7 +38,7 @@ void displayStudentInfo(const Student *student);
 void modifyStudent(Student **students, int numStudents);
 
 /**
- * saveStudentsToFile - Saves student records to a file.
+ * saveStudentsToFile - Saves the student records to a file.
  *
  * @students: An array of Student pointers.
  * @numStudents: The number of students in the array.
@@ -49,8 +49,8 @@ void saveStudentsToFile(Student **students, int numStudents, const char *filenam
 /**
  * loadStudentsFromFile - Loads student records from a file.
  *
- * @students: A pointer to an array of Student pointers.
- * @numStudents: A pointer to the number of students in the array.
+ * @students: A pointer to an array of Student pointers (to be allocated).
+ * @numStudents: A pointer to an integer for storing the number of students loaded.
  * @filename: The name of the file to load from.
  */
 void loadStudentsFromFile(Student ***students, int *numStudents, const char *filename);
