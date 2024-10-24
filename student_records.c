@@ -3,7 +3,7 @@
 #include <string.h>
 #include "student_records.h"
 
-// Function prototype
+// Function prototype for searchStudentIndex
 int searchStudentIndex(const Student **students, int numStudents, int rollNumber);
 
 /**
@@ -55,6 +55,11 @@ void addStudent(Student ***students, int *numStudents) {
  * @numStudents: The number of students in the array.
  */
 void displayStudents(const Student **students, int numStudents) {
+    if (numStudents == 0) {
+        printf("No students found.\n");
+        return;
+    }
+
     printf("List of Students:\n");
     for (int i = 0; i < numStudents; i++) {
         printf("Name: %s, Roll Number: %d, Marks: %.2f\n", 
