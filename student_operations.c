@@ -1,101 +1,46 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "student_operations.h"
-#include "student_records.h"
 
-/**
- * searchStudent - Searches for a student by roll number.
- *
- * @students: An array of Student pointers.
- * @numStudents: The number of students in the array.
- * @rollNumber: The roll number to search for.
- * Return: A pointer to the found Student, or NULL if not found.
- */
-Student *searchStudent(const Student **students, int numStudents, int rollNumber) {
-    for (int i = 0; i < numStudents; i++) {
-        if (students[i]->rollNumber == rollNumber) {
-            return students[i]; // Return the found student
-        }
-    }
-    return NULL; // Not found
-}
-
-/**
- * searchAndDisplayStudent - Searches for a student by roll number and displays their information.
- *
- * @students: An array of Student pointers.
- * @numStudents: The number of students in the array.
- */
 void searchAndDisplayStudent(Student **students, int numStudents) {
     int rollNumber;
-
     printf("Enter roll number to search: ");
-    if (scanf("%d", &rollNumber) != 1) {
-        printf("Invalid input. Please enter a valid roll number.\n");
-        while (getchar() != '\n'); // Clear the input buffer
-        return;
-    }
+    scanf("%d", &rollNumber);
 
-    const Student *foundStudent = searchStudent((const Student **)students, numStudents, rollNumber); // Keep const here
-
-    if (foundStudent != NULL) {
-        displayStudentInfo(foundStudent);
+    const Student *student = searchStudent((const Student **)students, numStudents, rollNumber);
+    if (student) {
+        displayStudentInfo(student);
     } else {
-        printf("Student not found.\n");
+        printf("Student with roll number %d not found.\n", rollNumber);
     }
 }
 
-/**
- * modifyStudent - Modifies the information of a student.
- *
- * @students: An array of Student pointers.
- * @numStudents: The number of students in the array.
- */
+void displayStudentInfo(const Student *student) {
+    printf("Student Info:\n");
+    printf("Name: %s\n", student->name);
+    printf("Roll Number: %d\n", student->rollNumber);
+    printf("Marks: %.2f\n", student->marks);
+}
+
 void modifyStudent(Student **students, int numStudents) {
     int rollNumber;
+    printf("Enter roll number of the student to modify: ");
+    scanf("%d", &rollNumber);
 
-    printf("Enter roll number to modify: ");
-    if (scanf("%d", &rollNumber) != 1) {
-        printf("Invalid input. Please enter a valid roll number.\n");
-        while (getchar() != '\n'); // Clear the input buffer
+    int index = searchStudentIndex((const Student **)students, numStudents, rollNumber);
+    if (index == -1) {
+        printf("Student not found.\n");
         return;
     }
 
-    int index = searchStudentIndex((const Student **)students, numStudents, rollNumber); // Get the index
-
-    if (index != -1) {
-        printf("Enter new name: ");
-        scanf("%49s", students[index]->name); // Modify directly using the index
-
-        printf("Enter new roll number: ");
-        while (scanf("%d", &students[index]->rollNumber) != 1) {
-            printf("Invalid input. Please enter a valid roll number: ");
-            while (getchar() != '\n'); // Clear the input buffer
-        }
-
-        printf("Enter new marks: ");
-        while (scanf("%f", &students[index]->marks) != 1) {
-            printf("Invalid input. Please enter valid marks: ");
-            while (getchar() != '\n'); // Clear the input buffer
-        }
-
-        printf("Student information modified.\n");
-    } else {
-        printf("Student not found.\n");
-    }
+    printf("Modifying details for student: %s\n", students[index]->name);
+    printf("Enter new name: ");
+    scanf("%49s", students[index]->name);
+    
+    printf("Enter new marks: ");
+    scanf("%f", &students[index]->marks);
+    
+    printf("Student details updated successfully.\n");
 }
 
-/**
- * displayStudentInfo - Displays the information of a student.
- *
- * @student: A pointer to the student to display.
- */
-void displayStudentInfo(const Student *student) { // Use const to indicate the student won't be modified
-    if (student != NULL) {
-        printf("Name: %s\n", student->name);
-        printf("Roll Number: %d\n", student->rollNumber);
-        printf("Marks: %.2f\n", student->marks);
-    } else {
-        printf("No student information available.\n");
-    }
-}
+// Other functions like saveStudentsToFile, loadStudentsFromFile, etc. would go here...
