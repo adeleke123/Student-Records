@@ -165,28 +165,6 @@ void sortStudentsByMarks(Student **students, int numStudents, int ascending) {
 }
 
 /**
- * saveStudentsToFile - Saves the student records to a file.
- * 
- * @students: Array of student pointers.
- * @numStudents: Number of students.
- * @filename: The name of the file to save the records to.
- */
-void saveStudentsToFile(const Student **students, int numStudents, const char *filename) {
-    FILE *file = fopen(filename, "w");
-    if (file == NULL) {
-        printf("Failed to open file.\n");
-        return;
-    }
-
-    for (int i = 0; i < numStudents; i++) {
-        fprintf(file, "%s %d %.2f\n", students[i]->name, students[i]->rollNumber, students[i]->marks);
-    }
-
-    fclose(file);
-    printf("Student records saved successfully.\n");
-}
-
-/**
  * loadStudentsFromFile - Loads student records from a file.
  * 
  * @students: Pointer to the array of student pointers.
