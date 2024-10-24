@@ -44,7 +44,7 @@ void modifyStudent(Student **students, int numStudents);
  * @numStudents: The number of students in the array.
  * @filename: The name of the file to save to.
  */
-void saveStudentsToFile(Student **students, int numStudents, const char *filename);
+void saveStudentsToFile(const Student **students, int numStudents, const char *filename);
 
 /**
  * loadStudentsFromFile - Loads student records from a file.
