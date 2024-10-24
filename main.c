@@ -107,12 +107,14 @@ int main(void) {
                 break;
             case 8:
                 // Save student records to file
-                saveStudentsToFile(students, numStudents, "students.txt");
-                break; // The success message will be handled in the function
+                saveStudentsToFile((const Student **)students, numStudents, "students.txt");
+                printf("Student records saved to 'students.txt'.\n");
+                break; // Success message is handled in the function
             case 9:
                 // Load student records from file
                 loadStudentsFromFile(&students, &numStudents, "students.txt");
-                break; // The success message will be handled in the function
+                printf("Student records loaded from 'students.txt'.\n");
+                break; // Success message is handled in the function
             case 10:
                 freeMemory(students, numStudents); // Free allocated memory
                 printf("Exiting the program. Goodbye!\n");
