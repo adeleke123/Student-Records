@@ -10,9 +10,11 @@ void displayMenu() {
     printf("3. Modify Student\n");
     printf("4. Display All Students\n");
     printf("5. Delete Student\n");
-    printf("6. Exit\n");
-    printf("7. Save Students to File\n");
-    printf("8. Load Students from File\n");
+    printf("6. Calculate Average Marks\n");
+    printf("7. Sort Students\n");
+    printf("8. Save Students to File\n");
+    printf("9. Load Students from File\n");
+    printf("10. Exit\n");
     printf("Please enter your choice: ");
 }
 
@@ -20,7 +22,7 @@ void displayMenu() {
  * handleUserChoice - Handles user choice from the menu.
  *
  * @choice: The choice made by the user.
- * @students: An array of Student pointers.
+ * @students: A pointer to an array of Student pointers.
  * @numStudents: A pointer to the number of students.
  */
 void handleUserChoice(int choice, Student ***students, int *numStudents) {
@@ -54,14 +56,34 @@ void handleUserChoice(int choice, Student ***students, int *numStudents) {
             break;
         }
         case 6:
-            printf("Exiting program...\n");
-            break; // Exit will be handled in main loop
-        case 7:
-            saveStudentsToFile(*students, *numStudents, "students.txt"); // Save students to file
+            // Handle average marks calculation
+            if (*numStudents > 0) {
+                float average = calculateAverageMarks((const Student **)(*students), *numStudents);
+                printf("The average marks of all students is: %.2f\n", average);
+            } else {
+                printf("No students to calculate average.\n");
+            }
             break;
+        case 7: {
+            // Sort students by marks
+            printf("Sort by marks in (1) Ascending or (2) Descending order? ");
+            int sortOrder;
+            scanf("%d", &sortOrder);
+            sortStudentsByMarks(*students, *numStudents, sortOrder == 1 ? 1 : 0);
+            printf("Students sorted by marks.\n");
+            break;
+        }
         case 8:
-            loadStudentsFromFile(students, numStudents, "students.txt"); // Load students from file
+            saveStudentsToFile((const Student **)(*students), *numStudents, "students.txt"); // Save students to file
+            printf("Student records saved to 'students.txt'.\n");
             break;
+        case 9:
+            loadStudentsFromFile(students, numStudents, "students.txt"); // Load students from file
+            printf("Student records loaded from 'students.txt'.\n");
+            break;
+        case 10:
+            printf("Exiting program...\n");
+            break; // Exit will be handled in the main loop
         default:
             printf("Invalid choice. Please try again.\n");
     }
