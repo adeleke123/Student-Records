@@ -28,13 +28,19 @@ void loadStudentsFromFile(Student ***students, int *numStudents, const char *fil
     }
 
     *numStudents = 0;  // Reset the number of students
-
     char name[50];
     int rollNumber;
     float marks;
 
-    while (fscanf(file, "%s %d %f", name, &rollNumber, &marks) == 3) {
+    while (fscanf(file, "%49s %d %f", name, &rollNumber, &marks) == 3) {
         // Allocate memory for a new student
+        *students = realloc(*students, (*numStudents + 1) * sizeof(Student *));
+        if (!(*students)) {
+            perror("Memory allocation failed");
+            fclose(file);
+            return;
+        }
+
         (*students)[*numStudents] = malloc(sizeof(Student));
         if (!(*students)[*numStudents]) {
             perror("Memory allocation failed");
@@ -74,9 +80,12 @@ void modifyStudent(Student **students, int numStudents) {
 
     // Modify student details
     printf("Enter new name: ");
-    scanf("%s", students[index]->name);
+    scanf("%49s", students[index]->name);  // Limit input size
     printf("Enter new marks: ");
-    scanf("%f", &students[index]->marks);
+    while (scanf("%f", &students[index]->marks) != 1) {
+        printf("Invalid input. Please enter valid marks: ");
+        while (getchar() != '\n');  // Clear invalid input
+    }
 
     printf("Student record updated successfully.\n");
 }
