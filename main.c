@@ -54,6 +54,10 @@ int main(void) {
         displayMenu();
         int choice = getUserChoice(); // Function to get user choice
 
+        if (choice == -1) {  // If invalid input is detected in getUserChoice
+            continue;  // Loop again to ask for valid input
+        }
+
         switch (choice) {
             case 1:
                 if (numStudents < maxStudents) {
