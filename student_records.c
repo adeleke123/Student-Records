@@ -163,37 +163,3 @@ void sortStudentsByMarks(Student **students, int numStudents, int ascending) {
     }
     printf("Students sorted successfully.\n");
 }
-
-/**
- * loadStudentsFromFile - Loads student records from a file.
- * 
- * @students: Pointer to the array of student pointers.
- * @numStudents: Pointer to the number of students.
- * @filename: The name of the file to load the records from.
- */
-void loadStudentsFromFile(Student ***students, int *numStudents, const char *filename) {
-    FILE *file = fopen(filename, "r");
-    if (file == NULL) {
-        printf("Failed to open file.\n");
-        return;
-    }
-
-    *numStudents = 0;
-    char name[50];
-    int rollNumber;
-    float marks;
-
-    while (fscanf(file, "%49s %d %f", name, &rollNumber, &marks) == 3) {
-        *students = realloc(*students, (*numStudents + 1) * sizeof(Student *));
-        (*students)[*numStudents] = malloc(sizeof(Student));
-
-        strcpy((*students)[*numStudents]->name, name);
-        (*students)[*numStudents]->rollNumber = rollNumber;
-        (*students)[*numStudents]->marks = marks;
-
-        (*numStudents)++;
-    }
-
-    fclose(file);
-    printf("Student records loaded successfully.\n");
-}
