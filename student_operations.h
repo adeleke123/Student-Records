@@ -11,7 +11,7 @@
  * @rollNumber: The roll number to search for.
  * Return: A pointer to the found Student, or NULL if not found.
  */
-Student *searchStudent(const Student **students, int numStudents, int rollNumber);
+const Student *searchStudent(const Student **students, int numStudents, int rollNumber);
 
 /**
  * searchAndDisplayStudent - Searches for a student by roll number and displays their information.
