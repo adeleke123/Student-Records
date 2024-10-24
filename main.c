@@ -18,6 +18,16 @@ void freeMemory(Student **students, int numStudents) {
 }
 
 /**
+ * checkPassOrFail - Checks if a student passed or failed based on marks.
+ * 
+ * @marks: The marks obtained by the student.
+ * Return: "Pass" if marks are >= 40, otherwise "Fail".
+ */
+const char* checkPassOrFail(float marks) {
+    return marks >= 40.0 ? "Pass" : "Fail";
+}
+
+/**
  * main - Entry point for the Student Record System.
  * Return: Success status.
  */
@@ -47,19 +57,20 @@ int main(void) {
         switch (choice) {
             case 1:
                 if (numStudents < maxStudents) {
-                    addStudent(&students, &numStudents); // Pass address to the pointer
+                    addStudent(&students, &numStudents); // Add new student
+                    printf("Student has %s\n", checkPassOrFail(students[numStudents - 1]->marks)); // Check pass/fail
                 } else {
                     printf("Student limit reached. Cannot add more students.\n");
                 }
                 break;
             case 2:
-                displayStudents((const Student **)students, numStudents); // Cast to const Student**
+                displayStudents((const Student **)students, numStudents); // Display all students
                 break;
             case 3:
-                searchAndDisplayStudent(students, numStudents);
+                searchAndDisplayStudent(students, numStudents); // Search and display student by roll number
                 break;
             case 4:
-                modifyStudent(students, numStudents); // Directly pass students
+                modifyStudent(students, numStudents); // Modify student record
                 break;
             case 5: {
                 int rollNumber;
@@ -71,14 +82,41 @@ int main(void) {
                 }
                 int index = searchStudentIndex((const Student **)students, numStudents, rollNumber);
                 if (index != -1) {
-                    deleteStudent(&students, &numStudents, index); // Pass address to the pointer
+                    deleteStudent(&students, &numStudents, index); // Delete student by index
                 } else {
                     printf("Student not found.\n");
                 }
                 break;
             }
             case 6:
-                freeMemory(students, numStudents);
+                // Calculate and display average marks
+                if (numStudents > 0) {
+                    float average = calculateAverageMarks((const Student **)students, numStudents);
+                    printf("The average marks of all students is: %.2f\n", average);
+                } else {
+                    printf("No students to calculate average.\n");
+                }
+                break;
+            case 7:
+                // Sort students by marks
+                printf("Sort by marks in (1) Ascending or (2) Descending order? ");
+                int sortOrder;
+                scanf("%d", &sortOrder);
+                sortStudentsByMarks(students, numStudents, sortOrder == 1 ? 1 : 0);
+                printf("Students sorted by marks.\n");
+                break;
+            case 8:
+                // Save student records to file
+                saveStudentsToFile((const Student **)students, numStudents, "students.txt");
+                printf("Student records saved to 'students.txt'.\n");
+                break;
+            case 9:
+                // Load student records from file
+                loadStudentsFromFile(&students, &numStudents, "students.txt");
+                printf("Student records loaded from 'students.txt'.\n");
+                break;
+            case 10:
+                freeMemory(students, numStudents); // Free allocated memory
                 printf("Exiting the program. Goodbye!\n");
                 return EXIT_SUCCESS; // Exit successfully
             default:
