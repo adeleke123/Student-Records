@@ -129,35 +129,6 @@ int searchStudentIndex(const Student **students, int numStudents, int rollNumber
 }
 
 /**
- * modifyStudent - Modifies a student's record.
- * 
- * @students: Array of student pointers.
- * @numStudents: Number of students.
- */
-void modifyStudent(Student **students, int numStudents) {
-    int rollNumber;
-    printf("Enter roll number of the student to modify: ");
-    scanf("%d", &rollNumber);
-
-    int index = searchStudentIndex((const Student **)students, numStudents, rollNumber);
-    if (index == -1) {
-        printf("Student not found.\n");
-        return;
-    }
-
-    printf("Enter new name: ");
-    scanf("%49s", students[index]->name);
-
-    printf("Enter new marks: ");
-    while (scanf("%f", &students[index]->marks) != 1) {
-        printf("Invalid input. Please enter valid marks: ");
-        while (getchar() != '\n');
-    }
-
-    printf("Student record updated successfully.\n");
-}
-
-/**
  * calculateAverageMarks - Calculates the average marks of all students.
  * 
  * @students: Array of student pointers.
