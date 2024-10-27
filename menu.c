@@ -4,7 +4,7 @@
 
 // Function to display the menu options
 void displayMenu() {
-    printf("\nMenu:\n");
+    printf("\n=== Student Record System ===\n");
     printf("1. Add Student\n");
     printf("2. Search and Display Student\n");
     printf("3. Modify Student\n");
