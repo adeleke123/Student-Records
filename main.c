@@ -10,21 +10,27 @@
  * @students: An array of Student pointers.
  * @numStudents: The number of students in the array.
  */
-void freeMemory(Student **students, int numStudents) {
-    for (int i = 0; i < numStudents; i++) {
-        free(students[i]);  // Free each student
-    }
-    free(students);  // Free the array of pointers
+
+void freeMemory(Student **students, int numStudents)
+{
+
+	for (int i = 0; i < numStudents; i++)
+	{
+		free(students[i]);/* Free each student*/
+	}
+	free(students);/* Free the array of pointers*/
 }
 
 /**
  * checkPassOrFail - Checks if a student passed or failed based on marks.
- * 
+ *
  * @marks: The marks obtained by the student.
  * Return: "Pass" if marks are >= 40, otherwise "Fail".
  */
-const char* checkPassOrFail(float marks) {
-    return marks >= 40.0 ? "Pass" : "Fail";
+
+const char* checkPassOrFail(float marks)
+{
+	return marks >= 40.0 ? "Pass" : "Fail";
 }
 
 /**
